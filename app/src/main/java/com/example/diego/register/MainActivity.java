@@ -41,33 +41,30 @@ public class MainActivity extends AppCompatActivity {
                 //dao.select("*","USUARIO","EMAIL = '" + email +"' AND SENHA = '" + senha + "'");
 
                 Cursor c = dao.select("*","USUARIO","EMAIL = '" + email.getText().toString() +"' AND SENHA = '" + senha.getText().toString() + "'");
-                String numeroDePanico = "0", nomeUsuario = "";
+                String email = "0", nomeUsuario = "";
 
                 if (c.getCount() > 0) {
                     c.moveToFirst();
-                    numeroDePanico = c.getString(2);
+                    email = c.getString(2);
                     nomeUsuario = c.getString(1);
                     message = nomeUsuario;
 
 
-                    Log.d("DEBUG/PANICO", "PANICO: " + numeroDePanico);
+                    Log.d("DEBUG", "PANICO: " + email);
                     Log.d("DEBUG", "HEY: " + nomeUsuario);
                     System.out.println(message);
+
+                    intent.putExtra(EXTRA_MESSAGE, message);
+                    startActivity(intent);
+
+                } else{
+                    startActivity(new Intent(MainActivity.this, Register.class));
+
                 }
 
-                Log.d("DEBUG/PANICO", "PANICO: " + numeroDePanico);
-                Log.d("DEBUG", "HEY: " + nomeUsuario);
+
                 System.out.println(message);
 
-                ArrayList<HashMap<String, String>> selectAll = dao.selectAll("USUARIO");
-
-                if(message != "hey"){
-                    intent.putExtra(EXTRA_MESSAGE, message);
-                }else{
-                    startActivity(new Intent(MainActivity.this, Register.class));
-                }
-
-                startActivity(intent);
             }
         });
         registrar.setOnClickListener(new View.OnClickListener() {
